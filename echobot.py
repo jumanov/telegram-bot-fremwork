@@ -1,15 +1,15 @@
-import telegram
-import os
-from pprint import pprint
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
 
-token = os.environ['token']
-echobot = telegram.Bot(token=token)
-update_id0 = 0
-while True:
-    data = echobot.getUpdates()[-1]
-    chat_id = data.message.chat.id
-    text = data.message.text
-    update_id1 = data.update_id
-    if update_id0 != update_id1:
-        echobot.sendMessage(chat_id, text)
-        update_id0 = update_id1
+TOKEN = '1747206956:AAG-ag4mlSeZWLNbmvj6BocrNThJ4puuI_g'
+
+def command(update, context):
+    update.message.reply_text(f'Hello {update.effective_user.first_name}')
+
+
+updater = Updater(token=TOKEN)
+
+updater.dispatcher.add_handler(CommandHandler('start', command))
+
+updater.start_polling()
+updater.idle()
